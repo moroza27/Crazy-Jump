@@ -1,28 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class LogicScript : MonoBehaviour
 {
-    private int playerScore;
-    public TextMeshProUGUI scoreText;
-    [SerializeField] private GameObject gameOverScreen;
-    
-    [ContextMenu("Increase Score")]
-    public void addScore(int scoreToAdd)
+    public Text progressText;
+    public GameObject gameOverScreen; // —юди в Unity перет€гнемо панель Game Over
+    public float levelDuration = 60f;
+    private float currentTime = 0f;
+    private bool isGameActive = true;
+
+    void Update()
     {
-        playerScore = playerScore + scoreToAdd;
-        scoreText.text = playerScore.ToString();
+        if (isGameActive)
+        {
+            currentTime += Time.deltaTime;
+            float progress = Mathf.Clamp((currentTime / levelDuration) * 100f, 0, 100);
+
+            if (progressText != null)
+                progressText.text = progress.ToString("F0") + "%";
+
+            if (progress >= 100f) WinLevel();
+        }
     }
-    public void restartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+
+    // ÷ю функц≥ю викликаЇ пташка при з≥ткненн≥
     public void gameOver()
     {
-        gameOverScreen.SetActive(true);
+        if (isGameActive) // ўоб не викликати сто раз≥в посп≥ль
+        {
+            isGameActive = false;
+            gameOverScreen.SetActive(true); // ѕоказуЇмо екран програшу
+            Time.timeScale = 0; // «упин€Їмо весь рух у гр≥
+            Debug.Log("√ру зупинено! ѕташка вр≥залас€.");
+        }
+    }
+
+    // ÷ю функц≥ю призначимо на кнопку Restart
+    public void restartGame()
+    {
+        Time.timeScale = 1; // ќЅќ¬'я« ќ¬ќ повертаЇмо швидк≥сть часу в 1
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // ѕерезапуск
+    }
+
+    public void addScore(int score) { /* «аглушка */ }
+
+    void WinLevel()
+    {
+        isGameActive = false;
+        Time.timeScale = 0;
+        if (progressText != null) progressText.text = "100% - ѕ≈–≈ћќ√ј!";
     }
 }
