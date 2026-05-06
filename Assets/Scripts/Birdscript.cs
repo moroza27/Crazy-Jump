@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class Birdscript : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem deathParticles;
     public Rigidbody2D myRigidbody;
     public float flapStrength = 5;
-    public LogicScript logic; // Посилання на наш менеджер
+    public LogicScript logic; 
     public bool birdIsAlive = true;
 
     void Start()
     {
-        // Пташка просто бере своє тіло. Ніякого пошуку логіки.
         myRigidbody = GetComponent<Rigidbody2D>();
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     void Update()
     {
-        // Пташка може стрибати ТІЛЬКИ якщо вона жива
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && birdIsAlive)
         {
             myRigidbody.velocity = Vector2.up * flapStrength;
@@ -29,12 +28,22 @@ public class Birdscript : MonoBehaviour
         {
             birdIsAlive = false;
 
-            Instantiate(deathEffect, transform.position + Vector3.forward, Quaternion.identity);
+            if (deathParticles != null)
+            {
+                deathParticles.transform.SetParent(null, true);
+                var main = deathParticles.main;
+                main.useUnscaledTime = true;
+                deathParticles.Play();
+                Destroy(deathParticles.gameObject, main.duration + main.startLifetime.constantMax + 0.25f);
+            }
+            else
+            {
+                Debug.LogWarning("Death particles are not assigned.");
+            }
 
             logic.gameOver();
 
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
-    public GameObject deathEffect;
 }
