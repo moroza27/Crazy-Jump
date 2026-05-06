@@ -5,9 +5,9 @@ public class AlternatingSpawner : MonoBehaviour
     public GameObject[] eaglePrefabs;
     public GameObject[] newBirdPrefabs;
 
-    public float spawnRate = 2f;          // Час між появою ворогів
-    public float heightOffset = 4f;       // На скільки вгору/вниз може зміщуватися ворог
-    private float timer = 0f;
+    public float spawnRate = 5f;          // Час між появою ворогів
+    public float heightOffset = 5f;       // На скільки вгору/вниз може зміщуватися ворог
+    private float timer = 3f;
 
     private bool isEagleTurn = true;
 

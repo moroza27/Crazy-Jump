@@ -22,14 +22,19 @@ public class Birdscript : MonoBehaviour
             myRigidbody.velocity = Vector2.up * flapStrength;
         }
     }
-    // ÷€ функц≥€ спрацьовуЇ при з≥ткненн≥ "контейнер≥в" (колайдер≥в)
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // якщо ми вр≥залис€ в об'Їкт з тегом "Enemy" або об'Їкт на шар≥ "Obstacle"
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if (collision.gameObject.CompareTag("Enemy") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
-            birdIsAlive = false; // ѕташка вмираЇ
-            logic.gameOver();    // ¬икликаЇмо зупинку гри та екран Game Over
+            birdIsAlive = false;
+
+            Instantiate(deathEffect, transform.position + Vector3.forward, Quaternion.identity);
+
+            logic.gameOver();
+
+           Destroy(gameObject);
         }
     }
+    public GameObject deathEffect;
 }

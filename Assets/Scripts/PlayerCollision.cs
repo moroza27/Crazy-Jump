@@ -25,6 +25,6 @@ public class PlayerCollision : MonoBehaviour
     void RestartLevel()
     {
         // Отримуємо ім'я поточної сцени і завантажуємо її наново
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
