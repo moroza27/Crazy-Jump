@@ -7,7 +7,7 @@ public class PipeSpawnScript : MonoBehaviour
     public GameObject pipe;
     public float spawnRate = 2f;
     public float heightOffset = 7;
-    public float startDelay = 2f;
+    public float startDelay = 5f;
 
     void Start()
     {
@@ -17,8 +17,6 @@ public class PipeSpawnScript : MonoBehaviour
         InvokeRepeating("spawnPipe", startDelay, spawnRate);
     }
 
-    // Зверни увагу: ми ПОВНІСТЮ видалили метод Update і змінну timer, 
-    // щоб вони не створювали "подвійних" ворогів.
 
     void spawnPipe()
     {
