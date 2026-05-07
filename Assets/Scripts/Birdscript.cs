@@ -5,7 +5,7 @@ public class Birdscript : MonoBehaviour
     [SerializeField] private ParticleSystem deathParticles;
     public Rigidbody2D myRigidbody;
     public float flapStrength = 5;
-    public LogicScript logic; 
+    public LogicScript logic;
     public bool birdIsAlive = true;
 
     void Start()
@@ -28,9 +28,11 @@ public class Birdscript : MonoBehaviour
         {
             birdIsAlive = false;
 
+
+
             if (deathParticles != null)
             {
-                deathParticles.transform.SetParent(null, true);
+                deathParticles.transform.position = transform.position+Vector3.forward*-5;
                 var main = deathParticles.main;
                 main.useUnscaledTime = true;
                 deathParticles.Play();

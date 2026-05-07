@@ -138,11 +138,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33264856fef53bb4c908b241d3f77cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticles: {fileID: 4336240206914812747, guid: 708217cc7b080d849819eaff63259dcf, type: 3}
   myRigidbody: {fileID: 3508563561718644030}
   flapStrength: 10
   logic: {fileID: 0}
   birdIsAlive: 0
-  deathEffect: {fileID: 3508563561718644026}
 --- !u!198 &3508563561718644018
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4929,7 +4929,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6c403bdd6b0a89f4892c943d1a506f5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
