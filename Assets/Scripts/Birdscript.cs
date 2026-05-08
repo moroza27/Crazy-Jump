@@ -28,10 +28,9 @@ public class Birdscript : MonoBehaviour
         {
             birdIsAlive = false;
 
-
-
             if (deathParticles != null)
             {
+                Debug.Log("Nikita LOX");
                 deathParticles.transform.position = transform.position+Vector3.forward*-5;
                 var main = deathParticles.main;
                 main.useUnscaledTime = true;

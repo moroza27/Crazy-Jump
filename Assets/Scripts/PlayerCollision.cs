@@ -3,16 +3,6 @@ using UnityEngine.SceneManagement; // Обов'язкова бібліотека для перезавантаженн
 
 public class PlayerCollision : MonoBehaviour
 {
-    // Ця функція спрацьовує, коли пташка фізично вдаряється об інший колайдер
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Перевіряємо, чи має об'єкт, з яким ми зіткнулися, тег "Enemy"
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            RestartLevel();
-        }
-    }
-
     // Якщо твої вороги налаштовані як Trigger (галочка Is Trigger), то використовуй цю функцію замість верхньої:
     private void OnTriggerEnter2D(Collider2D collision)
     {

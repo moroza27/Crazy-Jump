@@ -13,7 +13,7 @@ public class AlternatingSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnEnemy(); // Створюємо першого відразу, щоб не чекати 2 секунди
+
     }
 
     void Update()

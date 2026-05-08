@@ -24,19 +24,17 @@ public class LogicScript : MonoBehaviour
         }
     }
 
-    // ÷ю функц≥ю викликаЇ пташка при з≥ткненн≥
     public void gameOver()
     {
         if (isGameActive) // ўоб не викликати сто раз≥в посп≥ль
         {
             isGameActive = false;
             gameOverScreen.SetActive(true); // ѕоказуЇмо екран програшу
-            Time.timeScale = 0; // «упин€Їмо весь рух у гр≥
+            Time.timeScale = 0;
             Debug.Log("√ру зупинено! ѕташка вр≥залас€.");
         }
     }
 
-    // ÷ю функц≥ю призначимо на кнопку Restart
     public void restartGame()
     {
         Time.timeScale = 1; // ќЅќ¬'я« ќ¬ќ повертаЇмо швидк≥сть часу в 1
@@ -50,5 +48,9 @@ public class LogicScript : MonoBehaviour
         isGameActive = false;
         Time.timeScale = 0;
         if (progressText != null) progressText.text = "100% - ѕ≈–≈ћќ√ј!";
+    }
+    public void MoveToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
