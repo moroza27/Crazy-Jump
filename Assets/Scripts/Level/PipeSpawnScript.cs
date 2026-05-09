@@ -5,34 +5,25 @@ using UnityEngine;
 public class PipeSpawnScript : MonoBehaviour
 {
     public GameObject pipe;
-    public float spawnRate = 2;
-    private float timer = 0;
-    public float heightOffset = 0;
+    public float spawnRate = 2f;
+    public float heightOffset = 7;
+    public float startDelay = 5f;
 
     void Start()
     {
-        spawnPipe();
+        // Ця одна команда замінює весь таймер. 
+        // Вона почекає startDelay (2 секунди) перед першою пташкою,
+        // а потім буде викликати spawnPipe кожні spawnRate (2 секунди).
+        InvokeRepeating("spawnPipe", startDelay, spawnRate);
     }
 
-    void Update()
-    {
-        if (timer < spawnRate)
-        {
-            timer = timer + Time.deltaTime;
-        }
-        else
-        {
-            spawnPipe();
-            timer = 0;
-        }
-        
-    }
+
     void spawnPipe()
     {
         float lowestPoint = transform.position.y - heightOffset;
         float highestPoint = transform.position.y + heightOffset;
 
-        Instantiate(pipe, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0), transform.rotation );
+        // Створюємо ворога на випадковій висоті
+        Instantiate(pipe, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
     }
 }
-

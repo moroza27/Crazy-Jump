@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LogicScript : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LogicScript : MonoBehaviour
     public float levelDuration = 60f;
     private float currentTime = 0f;
     private bool isGameActive = true;
+    public int playerScore;
+    public TextMeshProUGUI scoreText;
 
     void Update()
     {
@@ -23,32 +26,37 @@ public class LogicScript : MonoBehaviour
             if (progress >= 100f) WinLevel();
         }
     }
+    public void addScore(int scoreToAdd)
+    {
+        playerScore += scoreToAdd;
+        scoreText.text = playerScore.ToString();
+    }
 
-    // ÷ю функц≥ю викликаЇ пташка при з≥ткненн≥
     public void gameOver()
     {
         if (isGameActive) // ўоб не викликати сто раз≥в посп≥ль
         {
             isGameActive = false;
             gameOverScreen.SetActive(true); // ѕоказуЇмо екран програшу
-            Time.timeScale = 0; // «упин€Їмо весь рух у гр≥
+            Time.timeScale = 0;
             Debug.Log("√ру зупинено! ѕташка вр≥залас€.");
         }
     }
 
-    // ÷ю функц≥ю призначимо на кнопку Restart
     public void restartGame()
     {
         Time.timeScale = 1; // ќЅќ¬'я« ќ¬ќ повертаЇмо швидк≥сть часу в 1
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // ѕерезапуск
     }
 
-    public void addScore(int score) { /* «аглушка */ }
-
     void WinLevel()
     {
         isGameActive = false;
         Time.timeScale = 0;
         if (progressText != null) progressText.text = "100% - ѕ≈–≈ћќ√ј!";
+    }
+    public void MoveToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

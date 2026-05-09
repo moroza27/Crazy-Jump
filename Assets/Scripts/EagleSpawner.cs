@@ -3,13 +3,13 @@ using UnityEngine;
 public class EagleSpawner : MonoBehaviour
 {
     public GameObject eaglePrefab; // Сюди покладемо префаб твого орла
-    public float spawnRate = 2;    // Як часто вони з'являтимуться (кожні 2 сек)
+    public float spawnRate = 3;    // Як часто вони з'являтимуться (кожні 2 сек)
     private float timer = 0;
-    public float heightOffset = 5; // Наскільки високо/низько вони можуть з'являтися
+    public float heightOffset = 3; // Наскільки високо/низько вони можуть з'являтися
 
     void Start()
     {
-        SpawnEagle(); // Створюємо першого орла щойно гра почалася
+
     }
 
     void Update()
