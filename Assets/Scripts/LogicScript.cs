@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LogicScript : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LogicScript : MonoBehaviour
     public float levelDuration = 60f;
     private float currentTime = 0f;
     private bool isGameActive = true;
+    public int playerScore;
+    public TextMeshProUGUI scoreText;
 
     void Update()
     {
@@ -22,6 +25,11 @@ public class LogicScript : MonoBehaviour
 
             if (progress >= 100f) WinLevel();
         }
+    }
+    public void addScore(int scoreToAdd)
+    {
+        playerScore += scoreToAdd;
+        scoreText.text = playerScore.ToString();
     }
 
     public void gameOver()
@@ -40,8 +48,6 @@ public class LogicScript : MonoBehaviour
         Time.timeScale = 1; // ОБОВ'ЯЗКОВО повертаємо швидкість часу в 1
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезапуск
     }
-
-    public void addScore(int score) { /* Заглушка */ }
 
     void WinLevel()
     {

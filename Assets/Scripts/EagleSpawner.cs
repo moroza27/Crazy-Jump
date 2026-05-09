@@ -9,7 +9,7 @@ public class EagleSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnEagle(); // Створюємо першого орла щойно гра почалася
+
     }
 
     void Update()
