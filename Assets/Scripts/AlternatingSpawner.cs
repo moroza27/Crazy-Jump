@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class AlternatingSpawner : MonoBehaviour
 {
-    public GameObject[] eaglePrefabs;
-    public GameObject[] newBirdPrefabs;
+    public string eagleTag = "Eagle";
+    public string birdTag = "Bird";
 
-    public float spawnRate = 5f;          // ×àñ ì³æ ïîÿâîş âîğîã³â
-    public float heightOffset = 5f;       // Íà ñê³ëüêè âãîğó/âíèç ìîæå çì³ùóâàòèñÿ âîğîã
-    private float timer = 3f;
+    [Header("Ğ§Ğ°ÑÑ‚Ğ¾Ñ‚Ğ° Ğ¿Ğ¾ÑĞ²Ğ¸ (Ğ¼ĞµĞ½ÑˆĞµ = Ñ‡Ğ°ÑÑ‚Ñ–ÑˆĞµ)")]
+    public float spawnRate = 1.5f; 
+    private float timer = 0f;
+
+    [Header("ĞĞ°Ğ»Ğ°ÑˆÑ‚ÑƒĞ²Ğ°Ğ½Ğ½Ñ Ğ²Ğ¸ÑĞ¾Ñ‚Ğ¸")]
+    public float heightOffset = 5f;
+
+    [Header("ĞĞ°Ğ»Ğ°ÑˆÑ‚ÑƒĞ²Ğ°Ğ½Ğ½Ñ Ğ¿Ğ°Ñ€")]
+    [Range(0, 100)]
+    public float doubleSpawnChance = 75f; // Ğ¨Ğ°Ğ½Ñ Ñƒ %, Ñ‰Ğ¾ Ğ²Ğ¸Ğ»ĞµÑ‚ÑÑ‚ÑŒ Ğ´Ğ²Ğ¾Ñ”
 
     private bool isEagleTurn = true;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -24,26 +26,42 @@ public class AlternatingSpawner : MonoBehaviour
         }
         else
         {
-            SpawnEnemy();
+            SpawnLogic();
             timer = 0f;
         }
     }
 
-    void SpawnEnemy()
+    void SpawnLogic()
     {
-        // Âèáèğàºìî ïğåôàá
-        GameObject enemyToSpawn = isEagleTurn ?
-            eaglePrefabs[Random.Range(0, eaglePrefabs.Length)] :
-            newBirdPrefabs[Random.Range(0, newBirdPrefabs.Length)];
+        float roll = Random.Range(0f, 100f);
 
-        // --- ÃÅÍÅĞÓªÌÎ ÂÈÏÀÄÊÎÂÓ ÂÈÑÎÒÓ ---
-        float lowestPoint = transform.position.y - heightOffset;
-        float highestPoint = transform.position.y + heightOffset;
-        Vector3 spawnPosition = new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0);
+        if (roll <= doubleSpawnChance)
+        {
+            // Ğ¡ĞŸĞĞ’ĞĞ˜ĞœĞ Ğ”Ğ’ĞĞ¥ ĞĞ”ĞĞĞ§ĞĞ¡ĞĞ
+            // ĞŸĞµÑ€ÑˆĞ° Ğ¿Ñ‚Ğ°ÑˆĞºĞ° (Ğ·Ğ²ĞµÑ€Ñ…Ñƒ)
+            SpawnSingleEnemy(Random.Range(transform.position.y + 1f, transform.position.y + heightOffset));
+            // Ğ”Ñ€ÑƒĞ³Ğ° Ğ¿Ñ‚Ğ°ÑˆĞºĞ° (Ğ·Ğ½Ğ¸Ğ·Ñƒ)
+            SpawnSingleEnemy(Random.Range(transform.position.y - heightOffset, transform.position.y - 1f));
+        }
+        else
+        {
+            // Ğ¡ĞŸĞĞ’ĞĞ˜ĞœĞ ĞĞ”ĞĞ£ (ÑĞº Ğ·Ğ°Ğ·Ğ²Ğ¸Ñ‡Ğ°Ğ¹)
+            SpawnSingleEnemy(Random.Range(transform.position.y - heightOffset, transform.position.y + heightOffset));
+        }
+    }
 
-        // Ñòâîğşºìî âîğîãà
-        Instantiate(enemyToSpawn, spawnPosition, transform.rotation);
+    // ĞĞºÑ€ĞµĞ¼Ğ¸Ğ¹ Ğ¼ĞµÑ‚Ğ¾Ğ´ Ğ´Ğ»Ñ ÑÑ‚Ğ²Ğ¾Ñ€ĞµĞ½Ğ½Ñ Ğ¾Ğ´Ğ½Ñ–Ñ”Ñ— Ğ¾Ğ´Ğ¸Ğ½Ğ¸Ñ†Ñ–
+    void SpawnSingleEnemy(float yPosition)
+    {
+        string tagToSpawn = isEagleTurn ? eagleTag : birdTag;
+        Vector3 spawnPosition = new Vector3(transform.position.x, yPosition, 0);
 
-        isEagleTurn = !isEagleTurn; // Çì³íà ÷åğãè
+        if (ObjectPooler.Instance != null)
+        {
+            ObjectPooler.Instance.SpawnFromPool(tagToSpawn, spawnPosition, transform.rotation);
+        }
+
+        // ĞœÑ–Ğ½ÑÑ”Ğ¼Ğ¾ Ñ‡ĞµÑ€Ğ³Ñƒ Ğ¿Ñ–ÑĞ»Ñ ĞºĞ¾Ğ¶Ğ½Ğ¾Ğ³Ğ¾ ÑÑ‚Ğ²Ğ¾Ñ€ĞµĞ½Ğ½Ñ
+        isEagleTurn = !isEagleTurn; 
     }
 }

@@ -11,7 +11,17 @@ public class Birdscript : MonoBehaviour
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        
+        // Шукаємо LogicScript на сцені
+        GameObject logicObject = GameObject.FindGameObjectWithTag("Logic");
+        if (logicObject != null)
+        {
+            logic = logicObject.GetComponent<LogicScript>();
+        }
+        else
+        {
+            Debug.LogError("ОБ'ЄКТ З ТЕГОМ 'Logic' НЕ ЗНАЙДЕНО!");
+        }
     }
 
     void Update()
@@ -21,30 +31,55 @@ public class Birdscript : MonoBehaviour
             myRigidbody.velocity = Vector2.up * flapStrength;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && birdIsAlive)
+        {
+            Die();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle")) && birdIsAlive)
         {
-            birdIsAlive = false;
-
-            if (deathParticles != null)
-            {
-                Debug.Log("Nikita LOX");
-                deathParticles.transform.position = transform.position+Vector3.forward*-5;
-                var main = deathParticles.main;
-                main.useUnscaledTime = true;
-                deathParticles.Play();
-                Destroy(deathParticles.gameObject, main.duration + main.startLifetime.constantMax + 0.25f);
-            }
-            else
-            {
-                Debug.LogWarning("Death particles are not assigned.");
-            }
-
-            logic.gameOver();
-
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        Debug.Log("Die() викликано!"); // Перевірка в консолі
+        birdIsAlive = false;
+
+        // Викликаємо Game Over
+        if (logic != null)
+        {
+            logic.gameOver();
+        }
+        else
+        {
+            Debug.LogError("Скрипт Logic не призначено!");
+        }
+
+        // Ефекти
+        if (deathParticles != null)
+        {
+            deathParticles.transform.position = transform.position + Vector3.forward * -5;
+            deathParticles.transform.parent = null; 
+            var main = deathParticles.main;
+            main.useUnscaledTime = true;
+            deathParticles.Play();
+            Destroy(deathParticles.gameObject, 2f);
+        }
+
+        // ПОВНЕ ВИМКНЕННЯ
+        // Вимикаємо рендерер (щоб пташка зникла візуально)
+        GetComponent<SpriteRenderer>().enabled = false;
+        // Вимикаємо фізику (щоб вона не падала)
+        myRigidbody.simulated = false;
+        // Вимикаємо сам об'єкт
+        gameObject.SetActive(false); 
     }
 }
