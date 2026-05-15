@@ -6,12 +6,23 @@ using TMPro;
 public class LogicScript : MonoBehaviour
 {
     public Text progressText;
-    public GameObject gameOverScreen; // Сюди в Unity перетягнемо панель Game Over
+    public GameObject gameOverScreen;
     public float levelDuration = 60f;
     private float currentTime = 0f;
     private bool isGameActive = true;
     public int playerScore;
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText; // Срахунок під час гри
+
+    [Header("Game Over UI")]
+    public TextMeshProUGUI gameOverScoreText; // Текст для "YOUR SCORE" на екрані смерті
+    public TextMeshProUGUI gameOverBestText;  // Текст для "YOUR BEST" на екрані смерті
+    private int bestScore; // Змінна для зберігання рекорду
+
+    void Start()
+    {
+        // Завантажуємо рекорд із пам'яті при запуску
+        bestScore = PlayerPrefs.GetInt("HighScore", 0);
+    }
 
     void Update()
     {
@@ -26,6 +37,7 @@ public class LogicScript : MonoBehaviour
             if (progress >= 100f) WinLevel();
         }
     }
+
     public void addScore(int scoreToAdd)
     {
         playerScore += scoreToAdd;
@@ -34,10 +46,26 @@ public class LogicScript : MonoBehaviour
 
     public void gameOver()
     {
-        if (isGameActive) // Щоб не викликати сто разів поспіль
+        if (isGameActive)
         {
             isGameActive = false;
-            gameOverScreen.SetActive(true); // Показуємо екран програшу
+
+            // 1. ПЕРЕВІРКА ТА ЗБЕРЕЖЕННЯ РЕКОРДУ
+            if (playerScore > bestScore)
+            {
+                bestScore = playerScore;
+                PlayerPrefs.SetInt("HighScore", bestScore);
+                PlayerPrefs.Save();
+            }
+
+            // 2. ВИВЕДЕННЯ ЦИФР НА ЕКРАН GAME OVER
+            if (gameOverScoreText != null)
+                gameOverScoreText.text = playerScore.ToString();
+
+            if (gameOverBestText != null)
+                gameOverBestText.text = bestScore.ToString();
+
+            gameOverScreen.SetActive(true);
             Time.timeScale = 0;
             Debug.Log("Гру зупинено! Пташка врізалася.");
         }
@@ -45,8 +73,8 @@ public class LogicScript : MonoBehaviour
 
     public void restartGame()
     {
-        Time.timeScale = 1; // ОБОВ'ЯЗКОВО повертаємо швидкість часу в 1
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезапуск
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void WinLevel()
@@ -55,8 +83,10 @@ public class LogicScript : MonoBehaviour
         Time.timeScale = 0;
         if (progressText != null) progressText.text = "100% - ПЕРЕМОГА!";
     }
+
     public void MoveToMenu()
     {
+        Time.timeScale = 1; // Додав сюди, щоб меню не "замерзало"
         SceneManager.LoadScene("MainMenu");
     }
 }
