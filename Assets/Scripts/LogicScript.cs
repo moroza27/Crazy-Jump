@@ -5,9 +5,15 @@ using TMPro;
 
 public class LogicScript : MonoBehaviour
 {
+    public LevelConfig config; // ПЕРЕТЯГНИ ФАЙЛ КОНФІГУ СЮДИ В ІНСПЕКТОРІ
     public Text progressText;
+<<<<<<< HEAD
     public GameObject gameOverScreen;
     public float levelDuration = 60f;
+=======
+    public GameObject gameOverScreen; 
+    private float levelDuration = 60f; // Буде перезаписано з конфігу
+>>>>>>> origin/dev
     private float currentTime = 0f;
     private bool isGameActive = true;
     public int playerScore;
@@ -22,6 +28,15 @@ public class LogicScript : MonoBehaviour
     {
         // ����������� ������ �� ���'�� ��� �������
         bestScore = PlayerPrefs.GetInt("HighScore", 0);
+    }
+
+    void Start()
+    {
+        // Ініціалізуємо тривалість з конфігу при старті
+        if (config != null)
+        {
+            levelDuration = config.levelDuration;
+        }
     }
 
     void Update()
@@ -46,6 +61,7 @@ public class LogicScript : MonoBehaviour
 
     public void gameOver()
     {
+<<<<<<< HEAD
         if (isGameActive)
         {
             isGameActive = false;
@@ -66,22 +82,33 @@ public class LogicScript : MonoBehaviour
                 gameOverBestText.text = bestScore.ToString();
 
             gameOverScreen.SetActive(true);
+=======
+        if (isGameActive) 
+        {
+            isGameActive = false;
+            gameOverScreen.SetActive(true); 
+>>>>>>> origin/dev
             Time.timeScale = 0;
-            Debug.Log("��� ��������! ������ ��������.");
+            Debug.Log("Гра закінчена! Рахунок збережено.");
         }
     }
 
     public void restartGame()
     {
+<<<<<<< HEAD
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+=======
+        Time.timeScale = 1; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+>>>>>>> origin/dev
     }
 
     void WinLevel()
     {
         isGameActive = false;
         Time.timeScale = 0;
-        if (progressText != null) progressText.text = "100% - ��������!";
+        if (progressText != null) progressText.text = "100% - Перемога!";
     }
 
     public void MoveToMenu()
