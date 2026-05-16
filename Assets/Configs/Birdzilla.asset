@@ -15,4 +15,4 @@ MonoBehaviour:
   birdName: Birdzilla
   birdSprite: {fileID: 21300000, guid: 75ce16cc037d4e6479720bbc4e413f27, type: 3}
   scoreRequired: 10
-  birdId: default
+  birdId: birdzilla

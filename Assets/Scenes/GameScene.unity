@@ -403,6 +403,12 @@ MonoBehaviour:
   flapStrength: 7.5
   logic: {fileID: 883693149}
   birdIsAlive: 1
+  birdSpriteRenderer: {fileID: 147839697}
+  allBirds:
+  - {fileID: 11400000, guid: 58e3ff626b7fbd5429e86f828405ad1c, type: 2}
+  - {fileID: 11400000, guid: 0471f872713ea6b49a3d8c5d9e5e7eb0, type: 2}
+  - {fileID: 11400000, guid: f3ac6163d8728f04dada82fc0bd5f4b6, type: 2}
+  - {fileID: 11400000, guid: 442443f6fdd103f458ce39c772d7b656, type: 2}
 --- !u!1 &150156601
 GameObject:
   m_ObjectHideFlags: 0

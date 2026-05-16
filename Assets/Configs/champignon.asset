@@ -15,4 +15,4 @@ MonoBehaviour:
   birdName: champignon
   birdSprite: {fileID: 21300000, guid: 36cbf81d2b586fc418159414546403ad, type: 3}
   scoreRequired: 20
-  birdId: default
+  birdId: champignon

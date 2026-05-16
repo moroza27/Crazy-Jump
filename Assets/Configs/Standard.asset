@@ -15,4 +15,4 @@ MonoBehaviour:
   birdName: Standard
   birdSprite: {fileID: 21300000, guid: c4d6924780b4b6349be10c1976c22352, type: 3}
   scoreRequired: 0
-  birdId: default
+  birdId: standard
