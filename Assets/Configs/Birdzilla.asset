@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6472c149d509c16439ce16c891bda44f, type: 3}
   m_Name: Birdzilla
   m_EditorClassIdentifier: 
-  birdName: 
-  birdSprite: {fileID: 0}
+  birdName: Birdzilla
+  birdSprite: {fileID: 21300000, guid: 75ce16cc037d4e6479720bbc4e413f27, type: 3}
   scoreRequired: 10
-  birdId: 
+  birdId: default

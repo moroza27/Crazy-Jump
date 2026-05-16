@@ -2,36 +2,51 @@ using UnityEngine;
 
 public class EagleSpawner : MonoBehaviour
 {
-    public GameObject eaglePrefab; // Сюди покладемо префаб твого орла
-    public float spawnRate = 3;    // Як часто вони з'являтимуться (кожні 2 сек)
+    [Header("РќР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ РїСѓР»Сѓ РѕР±'С”РєС‚С–РІ")]
+    public string eagleTag = "Eagle 1"; // РўРµРі, СЏРєРёР№ РїСЂРѕРїРёСЃР°РЅРёР№ РІ ObjectPooler РґР»СЏ РѕСЂР»Р°
+
+    [Header("РџР°СЂР°РјРµС‚СЂРё СЃРїР°РІРЅСѓ")]
+    public float spawnRate = 3;    // РЇРє С‡Р°СЃС‚Рѕ РѕСЂРµР» Р·'СЏРІР»СЏС”С‚СЊСЃСЏ (РєРѕР¶РЅС– 3 СЃРµРє)
     private float timer = 0;
-    public float heightOffset = 3; // Наскільки високо/низько вони можуть з'являтися
+    public float heightOffset = 3; // РљРѕР»РёРІР°РЅРЅСЏ РІРёСЃРѕС‚Рё
 
     void Start()
     {
-
+        // РџСЂРё СЃС‚Р°СЂС‚С– РѕР±РЅСѓР»СЏС”РјРѕ С‚Р°Р№РјРµСЂ
+        timer = 0;
     }
 
     void Update()
     {
-        // Таймер з відео: рахує час, і коли він доходить до spawnRate, створює орла
         if (timer < spawnRate)
         {
-            timer = timer + Time.deltaTime;
+            timer += Time.deltaTime;
         }
         else
         {
             SpawnEagle();
-            timer = 0; // Скидаємо таймер
+            timer = 0; // РЎРєРёРґР°С”РјРѕ С‚Р°Р№РјРµСЂ
         }
     }
 
     void SpawnEagle()
     {
-        // Визначаємо випадкову висоту для появи орла (як труби у відео)
+        // Р’РёСЂР°С…РѕРІСѓС”РјРѕ РІРёРїР°РґРєРѕРІСѓ РІРёСЃРѕС‚Сѓ
         float lowestPoint = transform.position.y - heightOffset;
         float highestPoint = transform.position.y + heightOffset;
+        Vector3 spawnPosition = new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0);
 
-        Instantiate(eaglePrefab, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        // --- РњРђР“Р†РЇ РџРЈР›РЈ Р—РђРњР†РЎРўР¬ INSTANTIATE ---
+        if (ObjectPooler.Instance != null)
+        {
+            // Р‘РµСЂРµРјРѕ РіРѕС‚РѕРІРѕРіРѕ РѕСЂР»Р° Р· РїСѓР»Сѓ
+            ObjectPooler.Instance.SpawnFromPool(eagleTag, spawnPosition, transform.rotation);
+        }
+        else
+        {
+            // РЇРєС‰Рѕ СЂР°РїС‚РѕРј РїСѓР»Сѓ РЅР° СЃС†РµРЅС– РЅРµРјР°С” (РґР»СЏ РїС–РґСЃС‚СЂР°С…РѕРІРєРё)
+            Debug.LogWarning("ObjectPooler РЅРµ Р·РЅР°Р№РґРµРЅРѕ РЅР° СЃС†РµРЅС–! РЎРїР°РІРЅСЋ С‡РµСЂРµР· Instantiate.");
+            // РўСѓС‚ РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”РјРѕ СЃС‚Р°СЂРёР№ eaglePrefab, Р°Р»Рµ РјРё Р№РѕРіРѕ РїСЂРёР±РµСЂРµРјРѕ, С‰РѕР± РЅРµ СЃРјС–С‚РёС‚Рё
+        }
     }
 }
