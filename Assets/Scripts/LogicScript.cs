@@ -5,13 +5,23 @@ using TMPro;
 
 public class LogicScript : MonoBehaviour
 {
+    public LevelConfig config; // РџР•Р Р•РўРЇР“РќР Р¤РђР™Р› РљРћРќР¤Р†Р“РЈ РЎР®Р”Р Р’ Р†РќРЎРџР•РљРўРћР Р†
     public Text progressText;
-    public GameObject gameOverScreen; // Сюди в Unity перетягнемо панель Game Over
-    public float levelDuration = 60f;
+    public GameObject gameOverScreen; 
+    private float levelDuration = 60f; // Р‘СѓРґРµ РїРµСЂРµР·Р°РїРёСЃР°РЅРѕ Р· РєРѕРЅС„С–РіСѓ
     private float currentTime = 0f;
     private bool isGameActive = true;
     public int playerScore;
     public TextMeshProUGUI scoreText;
+
+    void Start()
+    {
+        // Р†РЅС–С†С–Р°Р»С–Р·СѓС”РјРѕ С‚СЂРёРІР°Р»С–СЃС‚СЊ Р· РєРѕРЅС„С–РіСѓ РїСЂРё СЃС‚Р°СЂС‚С–
+        if (config != null)
+        {
+            levelDuration = config.levelDuration;
+        }
+    }
 
     void Update()
     {
@@ -26,6 +36,7 @@ public class LogicScript : MonoBehaviour
             if (progress >= 100f) WinLevel();
         }
     }
+
     public void addScore(int scoreToAdd)
     {
         playerScore += scoreToAdd;
@@ -34,27 +45,28 @@ public class LogicScript : MonoBehaviour
 
     public void gameOver()
     {
-        if (isGameActive) // Щоб не викликати сто разів поспіль
+        if (isGameActive) 
         {
             isGameActive = false;
-            gameOverScreen.SetActive(true); // Показуємо екран програшу
+            gameOverScreen.SetActive(true); 
             Time.timeScale = 0;
-            Debug.Log("Гру зупинено! Пташка врізалася.");
+            Debug.Log("Р“СЂР° Р·Р°РєС–РЅС‡РµРЅР°! Р Р°С…СѓРЅРѕРє Р·Р±РµСЂРµР¶РµРЅРѕ.");
         }
     }
 
     public void restartGame()
     {
-        Time.timeScale = 1; // ОБОВ'ЯЗКОВО повертаємо швидкість часу в 1
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезапуск
+        Time.timeScale = 1; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
     void WinLevel()
     {
         isGameActive = false;
         Time.timeScale = 0;
-        if (progressText != null) progressText.text = "100% - ПЕРЕМОГА!";
+        if (progressText != null) progressText.text = "100% - РџРµСЂРµРјРѕРіР°!";
     }
+
     public void MoveToMenu()
     {
         SceneManager.LoadScene("MainMenu");

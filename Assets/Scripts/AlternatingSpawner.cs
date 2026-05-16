@@ -4,23 +4,25 @@ public class AlternatingSpawner : MonoBehaviour
 {
     public string eagleTag = "Eagle";
     public string birdTag = "Bird";
-
-    [Header("Частота появи (менше = частіше)")]
-    public float spawnRate = 1.5f; 
+    
+    private LevelConfig config;
     private float timer = 0f;
-
-    [Header("Налаштування висоти")]
-    public float heightOffset = 5f;
-
-    [Header("Налаштування пар")]
-    [Range(0, 100)]
-    public float doubleSpawnChance = 75f; // Шанс у %, що вилетять двоє
-
     private bool isEagleTurn = true;
+
+    void Start()
+    {
+        GameObject logicObj = GameObject.FindGameObjectWithTag("Logic");
+        if (logicObj != null)
+        {
+            config = logicObj.GetComponent<LogicScript>().config;
+        }
+    }
 
     void Update()
     {
-        if (timer < spawnRate)
+        if (config == null) return;
+
+        if (timer < config.spawnRate)
         {
             timer += Time.deltaTime;
         }
@@ -35,22 +37,19 @@ public class AlternatingSpawner : MonoBehaviour
     {
         float roll = Random.Range(0f, 100f);
 
-        if (roll <= doubleSpawnChance)
+        if (roll <= config.doubleSpawnChance)
         {
-            // СПАВНИМО ДВОХ ОДНОЧАСНО
-            // Перша пташка (зверху)
-            SpawnSingleEnemy(Random.Range(transform.position.y + 1f, transform.position.y + heightOffset));
-            // Друга пташка (знизу)
-            SpawnSingleEnemy(Random.Range(transform.position.y - heightOffset, transform.position.y - 1f));
+            // СПАВНИМО ДВОХ
+            SpawnSingleEnemy(Random.Range(transform.position.y + 1f, transform.position.y + config.heightOffset));
+            SpawnSingleEnemy(Random.Range(transform.position.y - config.heightOffset, transform.position.y - 1f));
         }
         else
         {
-            // СПАВНИМО ОДНУ (як зазвичай)
-            SpawnSingleEnemy(Random.Range(transform.position.y - heightOffset, transform.position.y + heightOffset));
+            // СПАВНИМО ОДНУ
+            SpawnSingleEnemy(Random.Range(transform.position.y - config.heightOffset, transform.position.y + config.heightOffset));
         }
     }
 
-    // Окремий метод для створення однієї одиниці
     void SpawnSingleEnemy(float yPosition)
     {
         string tagToSpawn = isEagleTurn ? eagleTag : birdTag;
@@ -61,7 +60,6 @@ public class AlternatingSpawner : MonoBehaviour
             ObjectPooler.Instance.SpawnFromPool(tagToSpawn, spawnPosition, transform.rotation);
         }
 
-        // Міняємо чергу після кожного створення
         isEagleTurn = !isEagleTurn; 
     }
 }

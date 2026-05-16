@@ -342,7 +342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147839696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12, y: 0.1, z: 0}
+  m_LocalPosition: {x: -8.26, y: 0.1, z: 0}
   m_LocalScale: {x: 0.57, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1281,7 +1281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825995112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.09, y: 0.6, z: 0}
+  m_LocalPosition: {x: 24.27, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1302,9 +1302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eagleTag: Eagle 1
   birdTag: Eagle
-  spawnRate: 2
-  heightOffset: 8
-  doubleSpawnChance: 30
 --- !u!1 &883693148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,9 +1331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4f153845b82e3438bb04c3089c916e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 21e38d27f284d3044988ee54fdb77794, type: 2}
   progressText: {fileID: 0}
   gameOverScreen: {fileID: 1997392586}
-  levelDuration: 60
   playerScore: 0
   scoreText: {fileID: 700958102}
 --- !u!4 &883693150
