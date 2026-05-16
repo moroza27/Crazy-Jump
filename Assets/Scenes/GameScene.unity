@@ -403,6 +403,12 @@ MonoBehaviour:
   flapStrength: 7.5
   logic: {fileID: 883693149}
   birdIsAlive: 1
+  birdSpriteRenderer: {fileID: 147839697}
+  allBirds:
+  - {fileID: 11400000, guid: 58e3ff626b7fbd5429e86f828405ad1c, type: 2}
+  - {fileID: 11400000, guid: 0471f872713ea6b49a3d8c5d9e5e7eb0, type: 2}
+  - {fileID: 11400000, guid: f3ac6163d8728f04dada82fc0bd5f4b6, type: 2}
+  - {fileID: 11400000, guid: 442443f6fdd103f458ce39c772d7b656, type: 2}
 --- !u!1 &150156601
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,8 +445,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.47700003}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135.8, y: -125}
-  m_SizeDelta: {x: 250, y: 53.684998}
+  m_AnchoredPosition: {x: -206.38013, y: -191.38016}
+  m_SizeDelta: {x: 368.0819, y: 101.6559}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150156603
 MonoBehaviour:
@@ -1026,7 +1032,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700958101}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1075,8 +1081,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.47700003}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 160.2, y: -122.3}
-  m_SizeDelta: {x: 250, y: 53.684998}
+  m_AnchoredPosition: {x: 232.2251, y: -191.38}
+  m_SizeDelta: {x: 408.6727, y: 101.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765908658
 MonoBehaviour:

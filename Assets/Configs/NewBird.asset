@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6472c149d509c16439ce16c891bda44f, type: 3}
-  m_Name: champignon
+  m_Name: NewBird
   m_EditorClassIdentifier: 
-  birdName: champignon
-  birdSprite: {fileID: 21300000, guid: 36cbf81d2b586fc418159414546403ad, type: 3}
-  scoreRequired: 20
-  birdId: default
+  birdName: 
+  birdSprite: {fileID: 0}
+  scoreRequired: 0
+  birdId: 

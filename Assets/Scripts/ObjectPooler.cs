@@ -25,7 +25,7 @@ public class ObjectPooler : MonoBehaviour
 
             for (int i = 0; i < pool.size; i++) {
                 GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false); // Спочатку всі пташки вимкнені
+                obj.SetActive(false); // Спочатку всі об'єкти вимкнені
                 objectPool.Enqueue(obj);
             }
             poolDictionary.Add(pool.tag, objectPool);
@@ -35,6 +35,24 @@ public class ObjectPooler : MonoBehaviour
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation) {
         if (!poolDictionary.ContainsKey(tag)) return null;
 
+        // --- ЗАХИСТ ВІД ЗАВИСАННЯ (ПОРОЖНЬОЇ ЧЕРГИ) ---
+        if (poolDictionary[tag].Count == 0)
+        {
+            // Варіант А: Якщо черга пуста, динамічно створюємо ОДИН новий об'єкт, щоб гра не вилітала
+            Pool currentPool = pools.Find(p => p.tag == tag);
+            if (currentPool != null)
+            {
+                Debug.LogWarning($"Пул для тегу {tag} закінчився! Створюємо додатковий об'єкт.");
+                GameObject newObj = Instantiate(currentPool.prefab);
+                newObj.SetActive(true);
+                newObj.transform.position = position;
+                newObj.transform.rotation = rotation;
+                return newObj; // Повертаємо його відразу в гру
+            }
+            return null;
+        }
+        // ------------------------------------------------
+
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
 
         objectToSpawn.SetActive(true); // "Витягуємо з шафи"
@@ -43,5 +61,15 @@ public class ObjectPooler : MonoBehaviour
 
         poolDictionary[tag].Enqueue(objectToSpawn); // Кладемо в кінець черги
         return objectToSpawn;
+    }
+
+    // Новий корисний метод: повернення об'єкта в пул вручну (коли стовпчик вилітає за екран)
+    public void ReturnToPool(string tag, GameObject obj)
+    {
+        obj.SetActive(false);
+        if (poolDictionary.ContainsKey(tag) && !poolDictionary[tag].Contains(obj))
+        {
+            poolDictionary[tag].Enqueue(obj);
+        }
     }
 }

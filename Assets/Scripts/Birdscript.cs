@@ -8,10 +8,39 @@ public class Birdscript : MonoBehaviour
     public LogicScript logic;
     public bool birdIsAlive = true;
 
+    [Header("Магазин пташок у грі")]
+    public SpriteRenderer birdSpriteRenderer; // Посилання на відображення картинки пташки
+    public BirdData[] allBirds;               // Сюди скинемо ті ж самі конфіги пташок, що й в магазині
+
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         
+        // Автоматично беремо SpriteRenderer, якщо забули перетягнути в інспекторі
+        if (birdSpriteRenderer == null)
+        {
+            birdSpriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        // --- ЛОГІКА МАГАЗИНУ: Зміна вигляду пташки ---
+        // Отримуємо ID вибраної в магазині пташки. Якщо ще нічого не вибирали — береться "default"
+        string selectedBirdId = PlayerPrefs.GetString("SelectedBird", "default");
+
+        // Шукаємо пташку з таким ID серед усіх наших конфігів
+        if (allBirds != null && allBirds.Length > 0)
+        {
+            for (int i = 0; i < allBirds.Length; i++)
+            {
+                if (allBirds[i] != null && allBirds[i].birdId == selectedBirdId)
+                {
+                    // Знайшли! Замінюємо спрайт ігрового персонажа на картинку цієї пташки
+                    birdSpriteRenderer.sprite = allBirds[i].birdSprite;
+                    break;
+                }
+            }
+        }
+        // ----------------------------------------------
+
         // Шукаємо LogicScript на сцені
         GameObject logicObject = GameObject.FindGameObjectWithTag("Logic");
         if (logicObject != null)
@@ -76,10 +105,14 @@ public class Birdscript : MonoBehaviour
 
         // ПОВНЕ ВИМКНЕННЯ
         // Вимикаємо рендерер (щоб пташка зникла візуально)
-        GetComponent<SpriteRenderer>().enabled = false;
+        if (birdSpriteRenderer != null)
+        {
+            birdSpriteRenderer.enabled = false;
+        }
+        
         // Вимикаємо фізику (щоб вона не падала)
         myRigidbody.simulated = false;
         // Вимикаємо сам об'єкт
-        gameObject.SetActive(false); 
+        //gameObject.SetActive(false); 
     }
 }
