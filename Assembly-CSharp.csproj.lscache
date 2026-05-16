@@ -53,6 +53,7 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 [sourceFiles]
 Assets/Scripts/
  AlternatingSpawner.cs
+ BirdData.cs
  Birdscript.cs
  EagleSpawner.cs
  Level/
