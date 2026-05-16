@@ -5,38 +5,27 @@ using TMPro;
 
 public class LogicScript : MonoBehaviour
 {
-    public LevelConfig config; // РџР•Р Р•РўРЇР“РќР Р¤РђР™Р› РљРћРќР¤Р†Р“РЈ РЎР®Р”Р Р’ Р†РќРЎРџР•РљРўРћР Р†
     public Text progressText;
-<<<<<<< HEAD
     public GameObject gameOverScreen;
     public float levelDuration = 60f;
-=======
-    public GameObject gameOverScreen; 
-    private float levelDuration = 60f; // Р‘СѓРґРµ РїРµСЂРµР·Р°РїРёСЃР°РЅРѕ Р· РєРѕРЅС„С–РіСѓ
->>>>>>> origin/dev
     private float currentTime = 0f;
     private bool isGameActive = true;
     public int playerScore;
-    public TextMeshProUGUI scoreText; // Срахунок під час гри
+
+    // Залишаємо тільки цей один config!
+    public LevelConfig config;
+
+    public TextMeshProUGUI scoreText;
 
     [Header("Game Over UI")]
-    public TextMeshProUGUI gameOverScoreText; // Текст для "YOUR SCORE" на екрані смерті
-    public TextMeshProUGUI gameOverBestText;  // Текст для "YOUR BEST" на екрані смерті
-    private int bestScore; // Змінна для зберігання рекорду
+    public TextMeshProUGUI gameOverScoreText;
+    public TextMeshProUGUI gameOverBestText;
+    private int bestScore;
 
     void Start()
     {
         // Завантажуємо рекорд із пам'яті при запуску
         bestScore = PlayerPrefs.GetInt("HighScore", 0);
-    }
-
-    void Start()
-    {
-        // Р†РЅС–С†С–Р°Р»С–Р·СѓС”РјРѕ С‚СЂРёРІР°Р»С–СЃС‚СЊ Р· РєРѕРЅС„С–РіСѓ РїСЂРё СЃС‚Р°СЂС‚С–
-        if (config != null)
-        {
-            levelDuration = config.levelDuration;
-        }
     }
 
     void Update()
@@ -61,7 +50,6 @@ public class LogicScript : MonoBehaviour
 
     public void gameOver()
     {
-<<<<<<< HEAD
         if (isGameActive)
         {
             isGameActive = false;
@@ -82,38 +70,27 @@ public class LogicScript : MonoBehaviour
                 gameOverBestText.text = bestScore.ToString();
 
             gameOverScreen.SetActive(true);
-=======
-        if (isGameActive) 
-        {
-            isGameActive = false;
-            gameOverScreen.SetActive(true); 
->>>>>>> origin/dev
             Time.timeScale = 0;
-            Debug.Log("Р“СЂР° Р·Р°РєС–РЅС‡РµРЅР°! Р Р°С…СѓРЅРѕРє Р·Р±РµСЂРµР¶РµРЅРѕ.");
+            Debug.Log("Гру зупинено! Пташка врізалася.");
         }
     }
 
     public void restartGame()
     {
-<<<<<<< HEAD
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-=======
-        Time.timeScale = 1; 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
->>>>>>> origin/dev
     }
 
     void WinLevel()
     {
         isGameActive = false;
         Time.timeScale = 0;
-        if (progressText != null) progressText.text = "100% - РџРµСЂРµРјРѕРіР°!";
+        if (progressText != null) progressText.text = "100% - ПЕРЕМОГА!";
     }
 
     public void MoveToMenu()
     {
-        Time.timeScale = 1; // Додав сюди, щоб меню не "замерзало"
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }
